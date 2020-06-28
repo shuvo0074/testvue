@@ -1,6 +1,23 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="hello"
+  :style="[appStyle,appStyle2]"  
+  >
+  <!--    :style="{backgroundColor: "#42b983"}"  
+  or --   style="backgroundColor: #42b983" This is inline style, without binding, you can't use variable here -->
+
+    <h1
+    class="msgTxt"
+    :class="[msg==desiredMessage?'desiredMsgTxt':'']"
+    @mouseover="dim"
+    >{{ msg }}</h1>
+    <!-- if props.msg is same as data.desiredMessage class desiredMsgTxt is applied 
+    condition can be applied like this too     :class="{desiredMsgTxt:msg==desiredMessage}"
+    -->
+    <h1>{{messages}} </h1>
+    <div :key="item.id" v-for="item in lists" >
+      <h3>{{item.title}} </h3>
+      <ListItem :naame="item" />
+    </div>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -31,11 +48,39 @@
 </template>
 
 <script>
+  import ListItem  from "./LisItem.vue";
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  components: {
+    ListItem
+    },
+  props:
+  ["lists","msg"],
+  // {
+  //   msg: String,
+  //   lists: ["lists"]
+  // },
+  data(){
+    return{
+      messages: 'msg',
+      colorBack: '#42b983',
+      appStyle:{
+        backgroundColor: "#42b983"
+      },
+      appStyle2:{
+          // color: "blueviolet"
+      },
+      desiredMessage:"Welcome"
+      // firstText: $props
+    }
+    
+  },
+  methods: {
+    dim (){
+      console.log(this.colorBack,"somreoenr")
+    }
+  },
 }
 </script>
 
@@ -43,6 +88,7 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 ul {
   list-style-type: none;
@@ -52,7 +98,15 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
+.msgTxt {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bolder;
+  color: azure;
+}
+.desiredMsgTxt{
+  text-decoration:underline;
+}
 a {
-  color: #42b983;
+  color:brown;
 }
 </style>
